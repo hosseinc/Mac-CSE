@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Search Titles Only</title>
+  <script async src="https://cse.google.com/cse.js?cx=f023daf22dd8e4070"></script>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; }
+    input.gsc-input { width: 100% !important; }
+  </style>
+</head>
+<body>
+  <h1>Search Titles Only</h1>
+  <div class="gcse-search"></div>
+
+  <script>
+    const observer = new MutationObserver(() => {
+      const inputBox = document.querySelector('input.gsc-input');
+      const form = document.querySelector('form.gsc-search-box');
+
+      if (inputBox && form && !form.dataset.patched) {
+        form.dataset.patched = 'true';
+
+        form.addEventListener('submit', function () {
+          const val = inputBox.value.trim();
+          if (!val.toLowerCase().startsWith('intitle:')) {
+            inputBox.value = 'intitle:' + val;
+          }
+        });
+
+        observer.disconnect();
+      }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+  </script>
+</body>
+</html>
